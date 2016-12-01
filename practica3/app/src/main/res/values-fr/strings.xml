@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Practica1</string>
+    <string name="auth_enviar">Send</string>
+</resources>

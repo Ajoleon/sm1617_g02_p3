@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Practica 2</string>
+    <string name="main_title">Práctica 2</string>
+    <string name="main_description">Práctica realizada para la asignatura <i>Servicios Moviles</i> del grado en Ingenieria Telemática de la Universidad de Jaén. </string>
+    <string name="auth_name">Nombre</string>
+    <string name="auth_hint_user">Escriba su usuario</string>
+    <string name="auth_pass">Clave</string>
+    <string name="auth_hint_pass">Escriba su clave</string>
+    <string name="auth_ip">Direccion IP</string>
+    <string name="auth_hint_ip">Direccion del servidor</string>
+    <string name="auth_port">Puerto</string>
+    <string name="auth_hint_port">Puerto de conexion</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="auth_enviar">Enviar</string>
+    <string name="explanation">Esta es una explicación detallada de la práctica</string>
+
+</resources>

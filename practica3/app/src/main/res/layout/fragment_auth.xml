@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/auth_pass"
+        android:id="@+id/auth_label_pass"
+        android:layout_below="@+id/auth_edit_user"
+        />
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auth_enviar"
+        android:id="@+id/auth_button_send"
+        android:layout_below="@+id/auth_label_pass"
+        android:onClick="onSend" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/auth_edit_pass"
+        android:hint="@string/auth_hint_pass"
+        android:inputType="textPassword"
+        android:layout_below="@+id/auth_edit_user"
+        android:layout_alignLeft="@+id/auth_edit_user"
+        android:layout_alignStart="@+id/auth_edit_user" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/auth_name"
+        android:id="@+id/auth_label_user"
+        android:layout_alignBaseline="@+id/auth_edit_user"
+        android:layout_alignBottom="@+id/auth_edit_user"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/auth_edit_user"
+        android:hint="@string/auth_hint_user"
+        android:layout_marginLeft="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/auth_label_user" />
+
+</RelativeLayout>
