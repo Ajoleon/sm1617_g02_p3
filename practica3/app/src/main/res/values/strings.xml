@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Practica 2</string>
-    <string name="main_title">Práctica 2</string>
+    <string name="app_name">Practica 3</string>
+    <string name="main_title">Práctica 3</string>
     <string name="main_description">Práctica realizada para la asignatura <i>Servicios Moviles</i> del grado en Ingenieria Telemática de la Universidad de Jaén. </string>
     <string name="auth_name">Nombre</string>
     <string name="auth_hint_user">Escriba su usuario</string>
@@ -10,6 +10,14 @@
     <string name="auth_hint_ip">Direccion del servidor</string>
     <string name="auth_port">Puerto</string>
     <string name="auth_hint_port">Puerto de conexion</string>
+    <string name="measure">Valor de glucosa</string>
+    <string name="timeslot">Tramo horario</string>
+    <string name="before_breakfast">Ayuno</string>
+    <string name="breakfast">Desayuno</string>
+    <string name="lunch">Almuerzo</string>
+    <string name="before_dinner">Merienda</string>
+    <string name="dinner">Cena</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -108,7 +108,7 @@ public class AuthFragment extends Fragment {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
+                        SharedPreferences settings = getActivity().getSharedPreferences("sesion2", 0);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("SESION-ID",sesion.getmSessionId());
                         editor.putString("EXPIRES",sesion.getmExpires());

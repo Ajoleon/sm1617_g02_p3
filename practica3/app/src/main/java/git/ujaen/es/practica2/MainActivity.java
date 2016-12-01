@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences settings = getSharedPreferences("sesion", 0);
+        SharedPreferences settings = getSharedPreferences("sesion2", 0);
         String sesionid = settings.getString("SESION-ID", "");
         String expires = settings.getString("EXPIRES", "0000-00-00-00-00-00");
         System.out.println(expires);
