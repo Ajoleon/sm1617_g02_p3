@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,18 @@ public class PasoParam extends Fragment {
         View fragmento = inflater.inflate(R.layout.fragment_paso, container, false);
             TextView tv1 = (TextView)fragmento.findViewById(R.id.textView1);
             tv1.setText("Aquí estará la toma de datos para su envío");
-        //Devuelve la vista
+        Button boton = (Button) fragmento.findViewById(R.id.test_button);
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {// Aqui la conexion TCP
+
+                    }
+                });
+            }
+        });
         return fragmento;
     }
 }

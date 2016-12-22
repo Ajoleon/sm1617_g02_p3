@@ -37,5 +37,4 @@ public class Explanation extends Fragment {
         return fragmento;
     }
 
-
 }

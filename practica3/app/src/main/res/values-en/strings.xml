@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Practice 2</string>
+    <!--activity_main-->
+    <string name="main_title">Practice 2</string>
+
+    <!--fragment_auth-->
+    <string name="auth_name">Name</string>
+    <string name="auth_hint_user">User</string>
+    <string name="auth_pass">Key</string>
+    <string name="auth_hint_pass">Password</string>
+    <string name="auth_enviar">Send</string>
+
+    <!--fragment_explanation-->
+    <string name="main_description">Practice made for the subject <i> Mobile Services</i>, degree of Telematics Engineering of the University of Jaén</string>
+    <string name="explanation">This is a detailed explanation of the practice</string>
+
+</resources>

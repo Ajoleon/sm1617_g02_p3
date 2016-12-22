@@ -17,26 +17,26 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="es.ujaen.git.practica1.MainActivity">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/main_title"
-            android:id="@+id/main_text_title"
-            android:background="@mipmap/title_background"
-            android:padding ="5dp"
-            android:textSize="24sp"
-            android:textStyle="normal|bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/main_text_title"
             android:id="@+id/main_frame"
-            android:background="@mipmap/main_background">
+            android:background="@drawable/main_background">
         </FrameLayout>
 
     </RelativeLayout>
     <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorSecondary"
+        android:choiceMode="singleChoice"
+        android:divider="@color/colorAccent"
+        android:dividerHeight="2dp" />
 
 </android.support.v4.widget.DrawerLayout>
