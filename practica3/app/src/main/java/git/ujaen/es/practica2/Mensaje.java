@@ -60,7 +60,7 @@ public class Mensaje {
      * @return   los bytes que se envían como mensaje
      */
     public byte[] toByteArray(){
-        String m = header+""+data.toString()+CRLF;
+        String m = header+" "+data.toString()+CRLF;
         return m.getBytes();
     }
 

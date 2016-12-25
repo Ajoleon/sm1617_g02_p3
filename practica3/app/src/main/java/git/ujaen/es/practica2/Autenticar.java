@@ -3,11 +3,16 @@ package git.ujaen.es.practica2;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Objects;
 
 /**
  * Tarea asíncrona que se ancarga de activar un socket mediante una url
@@ -16,6 +21,9 @@ import java.net.URL;
  */
 public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
 
+    private Socket socket;
+    private static final int SERVERPORT = 6000;
+    private static final String SERVER_IP = "192.168.1.108";
     /**
      * Método que se encarga de iniciar datos antes de ejecutar la tarea asíncrona
      */
@@ -37,26 +45,21 @@ public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
         Sesion sesion = new Sesion("","");
 
         try {
-            //Usuario y contraseña de Autentication
-            String mUser = params[0].mUser;
-            String mPass = params[0].mPass;
+            InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+            socket = new Socket(serverAddr, SERVERPORT);
 
-            //URL del servidor
-            URL url = new URL("http://www4.ujaen.es");
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            //Inicio el socket
-            Socket socket = new Socket(url.getHost(), 80);
+            System.out.println("Entrada1: "+ inputStream.readLine());
 
-            //Inicio de las clases especializadas para leer y escribir
-            OutputStreamWriter os = new OutputStreamWriter(socket.getOutputStream());
-            InputStreamReader is = new InputStreamReader(socket.getInputStream());
 
-            //Escribo para enviar al socket
-            os.write(new String("GET /~jccuevas/ssmm/autentica.php?user=" + mUser + "&pass=" + mPass + " HTTP/1.1\r\nhost:www4.ujaen.es\r\n\r\n"));
-            os.flush();
 
-            //Clase para almacenar en buffer
-            BufferedReader in = new BufferedReader(is);
+            Datos data = new Datos(Integer.parseInt(params[0].getmUser()),params[0].getmPass());
+            Mensaje m = new Mensaje(1,data);
+            outputStream.write(m.toByteArray());
+            outputStream.flush();
+
 
             //Inicio variables que voy a utilizar
             String inputline; //Línea de entrada
@@ -64,26 +67,28 @@ public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
             String [] sessionid =  null; //Id de sesion
             String [] expires = null; //Fecha en la que expira la sesion
 
-            //Mientras que cada línea de entrada sea distinta de null
-            while ((inputline = in.readLine()) != null) {
-                //Separo las dos partes de la línea que estaban separadas por &
-                linea = inputline.split("&");
+            inputline = inputStream.readLine();
+            System.out.println(inputline);
+            linea = inputline.split(" ");
+            System.out.println(linea[1]);
+            if(Objects.equals(linea[1], "200")) {
+                linea = linea[2].split("&");
+
+                //Establezco el id de sesion quitando la cabecera, que no me interesa
+                sessionid = linea[0].split("SESION-ID=");
+                //Establezco la fecha quitando la cabecera, que no me interesa
+                expires = linea[1].split("EXPIRES=");
+
+                //Los introduzco en el objeto de la clase sesion
+                sesion.setmSessionId(sessionid[1]);
+                sesion.setmExpires(expires[1]);
+            }else if(Objects.equals(linea[1], "401")){
+                System.out.println("Usuario o clave incorrectos");
+                sesion.setmSessionId(null);
+                sesion.setmSessionId(null);
             }
-
-            //Establezco el id de sesion quitando la cabecera, que no me interesa
-            sessionid = linea[0].split("SESION-ID=");
-            //Establezco la fecha quitando la cabecera, que no me interesa
-            expires = linea[1].split("EXPIRES=");
-
-            //Los introduzco en el objeto de la clase sesion
-            sesion.setmSessionId(sessionid[1]);
-            sesion.setmExpires(expires[1]);
-
-            //Cierro clases para escribir y leer
-            os.close();
-            in.close();
-
-            //Cierro socket
+            inputStream.close();
+            outputStream.close();
             socket.close();
 
         } catch (IOException e) {

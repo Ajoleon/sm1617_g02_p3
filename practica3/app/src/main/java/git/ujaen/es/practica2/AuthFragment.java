@@ -31,7 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Clase que extiende de la clase fragmento.
  * Sirve para manejar el fragmento de autenticación.
- * @see git.ujaen.es.practica2.R.layout.fragment_auth Fragmento de autenticación
+ * @seee git.ujaen.es.practica2.R.layout.fragment_auth Fragmento de autenticación
  *
  */
 public class AuthFragment extends Fragment {
@@ -154,7 +154,7 @@ public class AuthFragment extends Fragment {
 
                     try {
                         //Almaceno los parámetros en un objeto de la clase autentication
-                        final Autentication a = new Autentication(mAutentica.getmUser(), mAutentica.getmPass());
+                        Autentication a = new Autentication(mAutentica.getmUser(), mAutentica.getmPass());
                         //Método para iniciar la tarea asíncrona con el objeto de la clase Autentication, devolviendo objeto de la clase sesion
                         sesion = aut.execute(a).get();
                     } catch (InterruptedException e) {
@@ -163,45 +163,48 @@ public class AuthFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    //Llamo al método para establecer preferencias compartidas
-                    SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    //Almaceno en el editor el identificador de sesion y la fecha en la que expira
-                    editor.putString("SESION-ID", sesion.getmSessionId());
-                    editor.putString("EXPIRES", sesion.getmExpires());
-                    //Almaceno las preferencias compartidas
-                    editor.commit();
+                    //Si la sesión es null es porque el usuario o la clave eran erróneos
+                    if(sesion.getmSessionId()!=null) {
+                        //Llamo al método para establecer preferencias compartidas
+                        SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
+                        SharedPreferences.Editor editor = settings.edit();
+                        //Almaceno en el editor el identificador de sesion y la fecha en la que expira
+                        editor.putString("SESION-ID", sesion.getmSessionId());
+                        editor.putString("EXPIRES", sesion.getmExpires());
+                        //Almaceno las preferencias compartidas
+                        editor.commit();
 
-                    //Muestra por consola
-                    System.out.println("SESION-ID: " + sesion.getmSessionId());
-                    System.out.println("EXPIRES: " + sesion.getmExpires());
+                        //Muestra por consola
+                        System.out.println("SESION-ID: " + sesion.getmSessionId());
+                        System.out.println("EXPIRES: " + sesion.getmExpires());
 
-                    //Llamo a la actividad 2 y la inicio
-                    Intent intent = new Intent(getActivity(), Main2Activity.class);
-                    startActivity(intent);
+                        //Llamo a la actividad 2 y la inicio
+                        Intent intent = new Intent(getActivity(), Main2Activity.class);
+                        startActivity(intent);
 
-                    String texto = "";//Inicializo texto donde guardaremos lo que contiene el archivo
+                        String texto = "";//Inicializo texto donde guardaremos lo que contiene el archivo
 
-                    texto = leerArchivo();//Recogemos lo del archivo
+                        texto = leerArchivo();//Recogemos lo del archivo
 
-                    try{
-                        //Clase para escribir en archivo
-                        OutputStreamWriter osw = new OutputStreamWriter(getContext().openFileOutput("historial", MODE_PRIVATE));
+                        try{
+                            //Clase para escribir en archivo
+                            OutputStreamWriter osw = new OutputStreamWriter(getContext().openFileOutput("historial", MODE_PRIVATE));
 
-                        //Escribimos los leído
-                        osw.write(texto);
-                        //Escribimos Usuario del objeto de la clase Autentication
-                        osw.write(mAutentica.getmUser());
-                        //Separamos de contraseña mediante espacio
-                        osw.write(" ");
-                        //Escribimos Contraseña del objeto de la clase Autentication
-                        osw.write(mAutentica.getmPass());
-                        //Finalizamos con &&, que utilizaremos para separar las tuplas
-                        osw.write("&&");
+                            //Escribimos los leído
+                            osw.write(texto);
+                            //Escribimos Usuario del objeto de la clase Autentication
+                            osw.write(mAutentica.getmUser());
+                            //Separamos de contraseña mediante espacio
+                            osw.write(" ");
+                            //Escribimos Contraseña del objeto de la clase Autentication
+                            osw.write(mAutentica.getmPass());
+                            //Finalizamos con &&, que utilizaremos para separar las tuplas
+                            osw.write("&&");
 
-                        //Cerramos la clase
-                        osw.close();
-                    }catch(Exception e){ }
+                            //Cerramos la clase
+                            osw.close();
+                        }catch(Exception e){ }
+                    }
 
                 }else{
                     //Pido que active la conexión a internet si no dispone de ella

@@ -14,6 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 public class Main2Activity extends AppCompatActivity {
 
     @Override
@@ -51,6 +56,7 @@ public class Main2Activity extends AppCompatActivity {
 
         //ListView de actividad 2, con explicación, toma de medidas, desconexión e historial de usuarios
         listview1();
+
     }
 
     public void listview1(){
