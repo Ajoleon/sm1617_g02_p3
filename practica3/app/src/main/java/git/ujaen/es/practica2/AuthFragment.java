@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -157,53 +158,58 @@ public class AuthFragment extends Fragment {
                         Autentication a = new Autentication(mAutentica.getmUser(), mAutentica.getmPass());
                         //Método para iniciar la tarea asíncrona con el objeto de la clase Autentication, devolviendo objeto de la clase sesion
                         sesion = aut.execute(a).get();
+
+                        //Si la sesión es 401 es porque el usuario o la clave eran erróneos
+                        if(!Objects.equals(sesion.getmSessionId(), "401")) {
+                            //Llamo al método para establecer preferencias compartidas
+                            SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            //Almaceno en el editor el identificador de sesion y la fecha en la que expira
+                            editor.putString("SESION-ID", sesion.getmSessionId());
+                            editor.putString("EXPIRES", sesion.getmExpires());
+                            //Almaceno las preferencias compartidas
+                            editor.commit();
+
+                            //Muestra por consola
+                            System.out.println("SESION-ID: " + sesion.getmSessionId());
+                            System.out.println("EXPIRES: " + sesion.getmExpires());
+
+                            //Llamo a la actividad 2 y la inicio
+                            Intent intent = new Intent(getActivity(), Main2Activity.class);
+                            startActivity(intent);
+
+                            String texto = "";//Inicializo texto donde guardaremos lo que contiene el archivo
+
+                            texto = leerArchivo();//Recogemos lo del archivo
+
+                            try{
+                                //Clase para escribir en archivo
+                                OutputStreamWriter osw = new OutputStreamWriter(getContext().openFileOutput("historial", MODE_PRIVATE));
+
+                                //Escribimos los leído
+                                osw.write(texto);
+                                //Escribimos Usuario del objeto de la clase Autentication
+                                osw.write(mAutentica.getmUser());
+                                //Separamos de contraseña mediante espacio
+                                osw.write(" ");
+                                //Escribimos Contraseña del objeto de la clase Autentication
+                                osw.write(mAutentica.getmPass());
+                                //Finalizamos con &&, que utilizaremos para separar las tuplas
+                                osw.write("&&");
+
+                                //Cerramos la clase
+                                osw.close();
+                            }catch(IOException e){ }
+
+                        }else if(Objects.equals(sesion.getmSessionId(), "401")){
+                            Toast.makeText(getActivity(), "Usuario o clave incorrectos", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getActivity(), "No es posible conectarse al servidor", Toast.LENGTH_SHORT).show();
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
-                    }
-
-                    //Si la sesión es null es porque el usuario o la clave eran erróneos
-                    if(sesion.getmSessionId()!=null) {
-                        //Llamo al método para establecer preferencias compartidas
-                        SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
-                        SharedPreferences.Editor editor = settings.edit();
-                        //Almaceno en el editor el identificador de sesion y la fecha en la que expira
-                        editor.putString("SESION-ID", sesion.getmSessionId());
-                        editor.putString("EXPIRES", sesion.getmExpires());
-                        //Almaceno las preferencias compartidas
-                        editor.commit();
-
-                        //Muestra por consola
-                        System.out.println("SESION-ID: " + sesion.getmSessionId());
-                        System.out.println("EXPIRES: " + sesion.getmExpires());
-
-                        //Llamo a la actividad 2 y la inicio
-                        Intent intent = new Intent(getActivity(), Main2Activity.class);
-                        startActivity(intent);
-
-                        String texto = "";//Inicializo texto donde guardaremos lo que contiene el archivo
-
-                        texto = leerArchivo();//Recogemos lo del archivo
-
-                        try{
-                            //Clase para escribir en archivo
-                            OutputStreamWriter osw = new OutputStreamWriter(getContext().openFileOutput("historial", MODE_PRIVATE));
-
-                            //Escribimos los leído
-                            osw.write(texto);
-                            //Escribimos Usuario del objeto de la clase Autentication
-                            osw.write(mAutentica.getmUser());
-                            //Separamos de contraseña mediante espacio
-                            osw.write(" ");
-                            //Escribimos Contraseña del objeto de la clase Autentication
-                            osw.write(mAutentica.getmPass());
-                            //Finalizamos con &&, que utilizaremos para separar las tuplas
-                            osw.write("&&");
-
-                            //Cerramos la clase
-                            osw.close();
-                        }catch(Exception e){ }
                     }
 
                 }else{
