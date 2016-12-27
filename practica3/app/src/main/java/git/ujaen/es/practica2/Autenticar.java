@@ -97,16 +97,7 @@ public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
         }catch (Exception e) {//Error al conectar el socket
             System.out.println("Error al conectar");
             sesion.setmSessionId(null);
-        }finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
 
         //Devuelve el objeto de la clase sesión
         return sesion;

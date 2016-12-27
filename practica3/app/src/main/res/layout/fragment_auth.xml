@@ -19,19 +19,6 @@
         android:layout_alignBottom="@+id/auth_label_pass"
         android:layout_alignStart="@+id/auth_edit_user" />
 
-    <EditText
-        android:layout_height="wrap_content"
-        android:id="@+id/auth_edit_user"
-        android:hint="@string/auth_hint_user"
-        android:inputType="number"
-        android:layout_marginLeft="35dp"
-        tools:ignore="RtlHardcoded"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="31dp"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/auth_label_user"
-        android:layout_width="100dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,6 +60,18 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="23dp" />
 
+    <EditText
+        android:layout_height="wrap_content"
+        android:id="@+id/auth_edit_user"
+        android:hint="@string/auth_hint_user"
+        android:inputType="number"
+        android:layout_marginLeft="35dp"
+        tools:ignore="RtlHardcoded"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="34dp"
+        android:layout_width="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/auth_label_user" />
 
 
 </RelativeLayout>

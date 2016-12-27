@@ -21,6 +21,14 @@
     <string name="lunch">Almuerzo</string>
     <string name="before_dinner">Merienda</string>
     <string name="dinner">Cena</string>
-    <string name="test_enviar">Test</string>
+    <string name="enviar">Enviar</string>
 
+    <!--Array del Spinner-->
+    <string-array name="franjas">
+        <item>Ayuno</item>
+        <item>Desayuno</item>
+        <item>Almuerzo</item>
+        <item>Merienda</item>
+        <item>Cena</item>
+    </string-array>
 </resources>

@@ -167,12 +167,16 @@ public class AuthFragment extends Fragment {
                             //Almaceno en el editor el identificador de sesion y la fecha en la que expira
                             editor.putString("SESION-ID", sesion.getmSessionId());
                             editor.putString("EXPIRES", sesion.getmExpires());
+                            editor.putString("USER",mAutentica.getmUser());
+                            editor.putString("PASS",mAutentica.getmPass());
                             //Almaceno las preferencias compartidas
                             editor.commit();
 
                             //Muestra por consola
                             System.out.println("SESION-ID: " + sesion.getmSessionId());
                             System.out.println("EXPIRES: " + sesion.getmExpires());
+                            System.out.println("USER: " + mAutentica.getmUser());
+                            System.out.println("PASS: " + mAutentica.getmPass());
 
                             //Llamo a la actividad 2 y la inicio
                             Intent intent = new Intent(getActivity(), Main2Activity.class);
