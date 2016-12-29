@@ -4,4 +4,6 @@
 
     <item android:title="@string/main_menu_help_string"
         android:id="@+id/main_menu_help" />
+    <item android:title="@string/main_menu_configuration_string"
+        android:id="@+id/main_menu_configuration" />
 </menu>

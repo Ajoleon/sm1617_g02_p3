@@ -14,6 +14,13 @@
     <string name="main_description">Práctica realizada para la asignatura <i>Servicios Moviles</i> del grado de Ingenieria Telemática de la Universidad de Jaén</string>
     <string name="explanation">Esta es una explicación detallada de la práctica</string>
     <string name="main_menu_help_string">Acerca de ...</string>
+    <string name="main_menu_configuration_string">Configuración</string>
+
+    <!--fragment_configuration-->
+    <string name="ip">Dirección IP del servidor</string>
+    <string name="puerto">Puerto del servidor</string>
+
+
     <string name="measure">Valor de glucosa</string>
     <string name="timeslot">Tramo horario</string>
     <string name="before_breakfast">Ayuno</string>
@@ -22,6 +29,7 @@
     <string name="before_dinner">Merienda</string>
     <string name="dinner">Cena</string>
     <string name="enviar">Enviar</string>
+    <string name="guardar">Guardar</string>
 
     <!--Array del Spinner-->
     <string-array name="franjas">

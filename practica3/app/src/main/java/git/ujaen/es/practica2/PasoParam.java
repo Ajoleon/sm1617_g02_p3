@@ -1,5 +1,6 @@
 package git.ujaen.es.practica2;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -158,7 +159,19 @@ public class PasoParam extends Fragment {
         @Override
         public void run() {
             try {
-                SocketAddress sockaddr = new InetSocketAddress(SERVER_IP, SERVERPORT);
+
+                String texto = leerArchivo(getContext());
+                String[] line;
+                line = texto.split(" ");
+
+                SocketAddress sockaddr;
+                if(Objects.equals(texto, "")) {
+                    System.out.println("Predeterminados");
+                    sockaddr = new InetSocketAddress(SERVER_IP, SERVERPORT);
+                }else{
+                    System.out.println("Los del archivo");
+                    sockaddr = new InetSocketAddress(line[0], Integer.parseInt(line[1]));
+                }
 
                 socket = new Socket();
                 int timeoutMs = 2000;   // 2 segundos para conectarse al servidor
@@ -274,5 +287,21 @@ public class PasoParam extends Fragment {
         });
     }
 
+    public String leerArchivo(Context c){
+        String texto="";
+        try{
+            BufferedReader fin =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    c.openFileInput("configuracion")));
+
+            texto = fin.readLine();
+            fin.close();
+        }catch (Exception ex){
+            System.out.println("Error al leer fichero desde memoria interna");
+        }
+
+        return texto;
+    }
 
 }

@@ -14,10 +14,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -265,8 +268,52 @@ public class Main2Activity extends AppCompatActivity {
             //Ejecuta la transacción de fragmentos
             ft.commit();
             return true;
+        }else if(id == R.id.main_menu_configuration){
+
+            String texto = leerArchivo();
+            System.out.println("Texto antes del fragmento:"+texto+".");
+
+            String[] linea;
+            linea = texto.split(" ");
+
+            Configuracion con;
+
+            if(!Objects.equals(texto, "")) {
+                System.out.println("Del archivo");
+                con = Configuracion.newInstance(linea[0],linea[1]);
+            }else{
+                System.out.println("De lo predeterminado");
+                //Se inicializa una nueva instancia del fragmento de configuracion
+                con = Configuracion.newInstance("192.168.1.108","5000");
+            }
+
+            //Se añade fragmento de explicación
+            ft.replace(R.id.main_frame, con);
+
+            //Añadimos null a la pila hacia atrás
+            ft.addToBackStack(null);
+            ft.commit();
+            //Ejecuta la transacción de fragmentos
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String leerArchivo(){
+        String texto="";
+        try{
+            BufferedReader fin =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    openFileInput("configuracion")));
+
+            texto = fin.readLine();
+            fin.close();
+        }catch (Exception ex){
+            System.out.println("Error al leer fichero desde memoria interna");
+        }
+
+        return texto;
     }
 }

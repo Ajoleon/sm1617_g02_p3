@@ -1,5 +1,6 @@
 package git.ujaen.es.practica2;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -25,10 +26,14 @@ import java.util.Objects;
 public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
 
     private Socket socket;
-    private static final int SERVERPORT = 6000;
+    private static final int SERVERPORT = 5000;
     private static final String SERVER_IP = "192.168.1.108";
-    private static Boolean existesocket = false;
+    private Context mContext;
 
+
+    public Autenticar (Context context){
+        mContext = context;
+    }
     /**
      * Método que se encarga de iniciar datos antes de ejecutar la tarea asíncrona
      */
@@ -49,9 +54,19 @@ public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
         //Iniciamos un objeto de la clase Sesion mediante su constructor
         Sesion sesion = new Sesion("", "");
 
-        try {
-            SocketAddress sockaddr = new InetSocketAddress(SERVER_IP, SERVERPORT);
+        String texto = leerArchivo(mContext);
+        String[] line;
+        line = texto.split(" ");
 
+        try {
+            SocketAddress sockaddr;
+            if(Objects.equals(texto, "")) {
+                System.out.println("Predeterminados");
+                sockaddr = new InetSocketAddress(SERVER_IP, SERVERPORT);
+            }else{
+                System.out.println("Los del archivo");
+                sockaddr = new InetSocketAddress(line[0], Integer.parseInt(line[1]));
+            }
             socket = new Socket();
             int timeoutMs = 2000;   // 2 segundos para conectarse al servidor
             socket.connect(sockaddr, timeoutMs);
@@ -133,4 +148,21 @@ public  class Autenticar extends AsyncTask<Autentication,Void,Sesion> {
     }*/
 
     }
+    public String leerArchivo(Context c){
+        String texto="";
+        try{
+            BufferedReader fin =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    c.openFileInput("configuracion")));
+
+            texto = fin.readLine();
+            fin.close();
+        }catch (Exception ex){
+            System.out.println("Error al leer fichero desde memoria interna");
+        }
+
+        return texto;
+    }
+
 }

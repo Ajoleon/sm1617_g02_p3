@@ -1,5 +1,8 @@
 package git.ujaen.es.practica2;
 
+
+import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,9 +10,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +32,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
+
+import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -193,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         //Encontramos el fragmento principal de la aplicación
         Fragment f = fm.findFragmentById(R.id.main_frame);
+
         if (id == R.id.main_menu_help) {
             //Se inicializa una nueva instancia del fragmento de explicación
             Explanation e = Explanation.newInstance();
@@ -203,9 +210,53 @@ public class MainActivity extends AppCompatActivity {
             ft.commit();
             //Ejecuta la transacción de fragmentos
             return true;
+        }else if(id == R.id.main_menu_configuration){
+
+            String texto = leerArchivo();
+            System.out.println("Texto antes del fragmento:"+texto+".");
+
+            String[] linea;
+            linea = texto.split(" ");
+
+            Configuracion con;
+
+            if(!Objects.equals(texto, "")) {
+                System.out.println("Del archivo");
+                con = Configuracion.newInstance(linea[0],linea[1]);
+            }else{
+                System.out.println("De lo predeterminado");
+                //Se inicializa una nueva instancia del fragmento de configuracion
+                con = Configuracion.newInstance("192.168.1.108","5000");
+            }
+
+            //Se añade fragmento de explicación
+            ft.replace(R.id.main_frame, con);
+
+            //Añadimos null a la pila hacia atrás
+            ft.addToBackStack(null);
+            ft.commit();
+            //Ejecuta la transacción de fragmentos
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String leerArchivo(){
+        String texto="";
+        try{
+            BufferedReader fin =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    openFileInput("configuracion")));
+
+            texto = fin.readLine();
+            fin.close();
+        }catch (Exception ex){
+            System.out.println("Error al leer fichero desde memoria interna");
+        }
+
+        return texto;
     }
 
 }

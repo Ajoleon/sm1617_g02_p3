@@ -141,6 +141,7 @@ public class AuthFragment extends Fragment {
                 mAutentica.setmUser(mEditUser.getEditableText().toString());
                 mAutentica.setmPass(mEditPass.getEditableText().toString());
 
+
                 //Los redibuja en el fragmento
                 mEditUser.setText(mAutentica.getmUser());
                 mEditPass.setText(mAutentica.getmPass());
@@ -151,7 +152,7 @@ public class AuthFragment extends Fragment {
                 //Si está online
                 if(online) {
                     //Llamo a la tarea asíncrona para el socket
-                    Autenticar aut = new Autenticar();
+                    Autenticar aut = new Autenticar(getContext());
 
                     try {
                         //Almaceno los parámetros en un objeto de la clase autentication
