@@ -159,8 +159,8 @@ public class AuthFragment extends Fragment {
                         //Método para iniciar la tarea asíncrona con el objeto de la clase Autentication, devolviendo objeto de la clase sesion
                         sesion = aut.execute(a).get();
 
-                        //Si la sesión es 401 es porque el usuario o la clave eran erróneos
-                        if(!Objects.equals(sesion.getmSessionId(), "401")) {
+                        //Si la sesión es 401 es porque el usuario o la clave eran erróneos, y si es null es porque no se ha iniciado el socket
+                        if(!Objects.equals(sesion.getmSessionId(), "401")&& sesion.getmSessionId()!=null) {
                             //Llamo al método para establecer preferencias compartidas
                             SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
                             SharedPreferences.Editor editor = settings.edit();
@@ -212,7 +212,9 @@ public class AuthFragment extends Fragment {
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        System.out.println("Interrupted exception");
                     } catch (ExecutionException e) {
+                        System.out.println("Execution exception");
                         e.printStackTrace();
                     }
 

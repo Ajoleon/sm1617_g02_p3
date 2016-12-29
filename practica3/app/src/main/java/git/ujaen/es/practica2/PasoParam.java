@@ -27,8 +27,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
 
@@ -41,6 +43,7 @@ public class PasoParam extends Fragment {
     private Socket socket;
     private static final int SERVERPORT = 6000;
     private static final String SERVER_IP = "192.168.1.108";
+    private static Boolean existesocket = false;
 
     private EditText medida = null;
     private String valormedida = "";
@@ -79,6 +82,9 @@ public class PasoParam extends Fragment {
                 @Override
                 public void handleMessage(Message msg) {
                     switch(msg.what){
+                        case -2:
+                            Toast.makeText(getActivity(), "No ha sido posible conectar con el servidor", Toast.LENGTH_SHORT).show();
+                            break;
                         case -1:
                             Toast.makeText(getActivity(), "Ya existe medida para esa franja y día", Toast.LENGTH_SHORT).show();
                             break;
@@ -152,86 +158,105 @@ public class PasoParam extends Fragment {
         @Override
         public void run() {
             try {
-                InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-                socket = new Socket(serverAddr, SERVERPORT);
+                SocketAddress sockaddr = new InetSocketAddress(SERVER_IP, SERVERPORT);
 
+                socket = new Socket();
+                int timeoutMs = 2000;   // 2 segundos para conectarse al servidor
+                socket.connect(sockaddr, timeoutMs);
+
+                try {
+                    System.out.println("Existe socket");
                     BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-                SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
+                    SharedPreferences settings = getActivity().getSharedPreferences("sesion", 0);
 
-                String user = settings.getString("USER", "");
-                String pass = settings.getString("PASS", "");
+                    String user = settings.getString("USER", "");
+                    String pass = settings.getString("PASS", "");
 
-                System.out.println("Entrada1: "+ inputStream.readLine());
-                    Datos data = new Datos(Integer.parseInt(user),pass);
-                    Mensaje m = new Mensaje(1,data);
+                    System.out.println("Entrada1: " + inputStream.readLine());
+                    Datos data = new Datos(Integer.parseInt(user), pass);
+                    Mensaje m = new Mensaje(1, data);
                     outputStream.write(m.toByteArray());
 
-                System.out.println("Entrada2: "+ inputStream.readLine());
+                    System.out.println("Entrada2: " + inputStream.readLine());
 
-                System.out.println(valormedida+" "+valorfranja);
-                int i=-1;
-                try{
-                    i = Integer.parseInt(valormedida);
-                }catch(NumberFormatException e){}
+                    System.out.println(valormedida + " " + valorfranja);
+                    int i = -1;
+                    try {
+                        i = Integer.parseInt(valormedida);
+                    } catch (NumberFormatException e) {
+                    }
 
-                    data = new Datos(i,valorfranja);
-                    m = new Mensaje(2,data);
+                    data = new Datos(i, valorfranja);
+                    m = new Mensaje(2, data);
                     outputStream.write(m.toByteArray());
 
                     String inputline; //Línea de entrada
-                    String [] linea; //Línea donde almaceno la entrada en cadenas, separadas por &
+                    String[] linea; //Línea donde almaceno la entrada en cadenas, separadas por &
 
                     inputline = inputStream.readLine();
                     System.out.println(inputline);
                     linea = inputline.split(" ");
                     System.out.println(linea[1]);
-                //SI la medida ha sido aceptada
-                if(Objects.equals(linea[1], "201")){
-                    Message msg= new Message();
-                    msg.what= 0;
-                    uiHandler.sendMessageDelayed(msg, 0);
+                    //SI la medida ha sido aceptada
+                    if (Objects.equals(linea[1], "201")) {
+                        Message msg = new Message();
+                        msg.what = 0;
+                        uiHandler.sendMessageDelayed(msg, 0);
 
-                    switch(linea[2]){
-                        case "1":
-                            msg = new Message();
-                            msg.what= 1;
-                            uiHandler.sendMessageDelayed(msg, 0);
-                            break;
-                        case "2":
-                            msg = new Message();
-                            msg.what= 2;
-                            uiHandler.sendMessageDelayed(msg, 0);
-                            break;
-                        case "3":
-                            msg = new Message();
-                            msg.what= 3;
-                            uiHandler.sendMessageDelayed(msg, 0);
-                            break;
-                        case "4":
-                            msg = new Message();
-                            msg.what= 4;
-                            uiHandler.sendMessageDelayed(msg, 0);
-                            break;
-                        case "5":
-                            msg = new Message();
-                            msg.what= 5;
-                            uiHandler.sendMessageDelayed(msg, 0);
-                            break;
+                        switch (linea[2]) {
+                            case "1":
+                                msg = new Message();
+                                msg.what = 1;
+                                uiHandler.sendMessageDelayed(msg, 0);
+                                break;
+                            case "2":
+                                msg = new Message();
+                                msg.what = 2;
+                                uiHandler.sendMessageDelayed(msg, 0);
+                                break;
+                            case "3":
+                                msg = new Message();
+                                msg.what = 3;
+                                uiHandler.sendMessageDelayed(msg, 0);
+                                break;
+                            case "4":
+                                msg = new Message();
+                                msg.what = 4;
+                                uiHandler.sendMessageDelayed(msg, 0);
+                                break;
+                            case "5":
+                                msg = new Message();
+                                msg.what = 5;
+                                uiHandler.sendMessageDelayed(msg, 0);
+                                break;
+                        }
+                    } else if (Objects.equals(linea[1], "401")) {
+                        Message msg = new Message();
+                        msg.what = -1;
+                        uiHandler.sendMessageDelayed(msg, 0);
                     }
-                }else if(Objects.equals(linea[1], "401")){
-                    Message msg= new Message();
-                    msg.what= -1;
-                    uiHandler.sendMessageDelayed(msg, 0);
-                }
 
                     inputStream.close();
                     outputStream.close();
-                    socket.close();
+
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                } finally {
+                    try {
+                        if (socket != null)
+                            socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             } catch (IOException e1) {
-                e1.printStackTrace();
+                existesocket = false;
+                Message msg = new Message();
+                msg.what = -2;
+                uiHandler.sendMessageDelayed(msg, 0);
             }
         }
     }
