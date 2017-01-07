@@ -7,5 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="listText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/colorList</item>
+    </style>
+    <style name="normalText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+    <style name="titleText" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

@@ -1,17 +1,42 @@
 <resources>
-    <string name="app_name">Practice 2</string>
+    <string name="app_name">Practice 3</string>
     <!--activity_main-->
-    <string name="main_title">Practice 2</string>
+    <string name="main_title">Practice 3</string>
 
     <!--fragment_auth-->
-    <string name="auth_name">Name</string>
-    <string name="auth_hint_user">User</string>
-    <string name="auth_pass">Key</string>
+    <string name="auth_name">ID</string>
+    <string name="auth_hint_user">Id</string>
+    <string name="auth_pass">Password</string>
     <string name="auth_hint_pass">Password</string>
     <string name="auth_enviar">Send</string>
 
     <!--fragment_explanation-->
-    <string name="main_description">Practice made for the subject <i> Mobile Services</i>, degree of Telematics Engineering of the University of Jaén</string>
+    <string name="main_description">This app has been made for the subject <i>Mobile Services</i> in University of Jaen</string>
     <string name="explanation">This is a detailed explanation of the practice</string>
+    <string name="main_menu_help_string">About ...</string>
+    <string name="main_menu_configuration_string">Configuration</string>
 
+    <!--fragment_configuration-->
+    <string name="ip">Server IP address </string>
+    <string name="puerto"> Server Port</string>
+
+
+    <string name="measure">Glucose value</string>
+    <string name="timeslot">Time slot</string>
+    <string name="before_breakfast">Before Breakfast</string>
+    <string name="breakfast">After Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="before_dinner">Snack time</string>
+    <string name="dinner">Dinner</string>
+    <string name="enviar">Send</string>
+    <string name="guardar">Save</string>
+
+    <!--Array del Spinner-->
+    <string-array name="franjas">
+        <item>Before Breakfast</item>
+        <item>After Breakfast</item>
+        <item>Lunch</item>
+        <item>Snack time</item>
+        <item>Dinner</item>
+    </string-array>
 </resources>

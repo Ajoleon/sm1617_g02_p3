@@ -30,12 +30,13 @@
         android:inputType="textPassword"
         android:layout_marginTop="24dp"
         android:layout_below="@+id/auth_edit_user"
-        android:layout_alignStart="@+id/auth_edit_user" />
+        android:layout_alignStart="@+id/auth_edit_user"
+        />
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="@style/normalText"
         android:text="@string/auth_pass"
         android:id="@+id/auth_label_pass"
         android:layout_marginStart="116dp"
@@ -45,7 +46,7 @@
 
     <TextView
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="@style/normalText"
         android:text="@string/auth_name"
         android:id="@+id/auth_label_user"
         android:layout_width="150dp"

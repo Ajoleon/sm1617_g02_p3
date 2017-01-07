@@ -4,8 +4,8 @@
     <string name="main_title">Práctica 3</string>
 
     <!--fragment_auth-->
-    <string name="auth_name">Nombre</string>
-    <string name="auth_hint_user">Usuario</string>
+    <string name="auth_name">DNI</string>
+    <string name="auth_hint_user">Dni</string>
     <string name="auth_pass">Clave</string>
     <string name="auth_hint_pass">Clave</string>
     <string name="auth_enviar">Enviar</string>

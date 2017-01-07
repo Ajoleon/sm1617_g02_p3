@@ -37,6 +37,7 @@
         android:background="@color/colorSecondary"
         android:choiceMode="singleChoice"
         android:divider="@color/colorAccent"
-        android:dividerHeight="2dp" />
+        android:dividerHeight="2dp"
+        android:textAppearance="@style/listText"/>
 
 </android.support.v4.widget.DrawerLayout>

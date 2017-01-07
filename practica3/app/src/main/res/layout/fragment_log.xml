@@ -16,7 +16,8 @@
         android:layout_height="194dp"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:layout_weight="0.89" />
+        android:layout_weight="0.89"
+        android:textAppearance="@style/listText"/>
 
     <ImageView
         android:layout_width="100dp"
